@@ -25,37 +25,17 @@ public class GetWeather {
 		 prop.load(file);
 		 RestAssured.baseURI = prop.getProperty("baseURL");;
 		    RequestSpecification httpRequest = RestAssured.given();
-		    // Set HTTP Headers
 		    httpRequest.header("Content-Type", prop.getProperty("Content-type"));
 		    httpRequest.header("unitGroup", prop.getProperty("unit"));
-		    
 		    Response response = httpRequest.get(prop.getProperty("city")+"?key="+prop.getProperty("key"));
-		    
-		    // Get Response Body 
 		    ResponseBody body = response.getBody();
-		    
-		    // Get Response Body as String 
 		    String bodyStringValue = body.asString();
-		    
 		    System.out.println(bodyStringValue);
-		    // Validate if Response Body Contains a specific String
 		    Assert.assertTrue(bodyStringValue.contains(prop.getProperty("element")));
-		    
-		    
-		    // Get JSON Representation from Response Body 
 		    JsonPath jsonPathEvaluator = response.jsonPath();
-		    // Get specific element from JSON document 
-		    
 		    String address = jsonPathEvaluator.get(prop.getProperty("element"));
-		    System.out.println(address);
-		    
-		    // Validate if the specific JSON element is equal to expected value
 		    Assert.assertTrue(address.equalsIgnoreCase(prop.getProperty("city")));
 		}
-	
-	
-
-	
 		        
 	}
 			      
